@@ -1,0 +1,350 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<!-- Hero Section - Main banner at the top of the page -->
+<section class="py-5 bg-gradient-primary">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <!-- Left side with text content -->
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold mb-3">Professional Lawn Care at Your Fingertips</h1>
+                <p class="lead text-muted mb-4">Book your lawn service in minutes and get an instant quote based on your yard size.</p>
+                <!-- Call-to-action buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
+                    <a href="{{ url_for('book') }}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        Book Now <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <a href="{{ url_for('quote') }}" class="btn btn-outline-primary btn-lg px-4">Get a Quote</a>
+                </div>
+                <!-- Trust indicators with checkmarks -->
+                <div class="d-flex align-items-center">
+                    <div class="d-flex me-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 text-primary">
+                            <i class="bi bi-check"></i>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 text-primary ms-n2">
+                            <i class="bi bi-check"></i>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-2 text-primary ms-n2">
+                            <i class="bi bi-check"></i>
+                        </div>
+                    </div>
+                    <span class="small text-muted">Trusted by 10,000+ homeowners</span>
+                </div>
+            </div>
+            <!-- Right side with lawn animation -->
+            <div class="col-lg-6">
+                <div class="lawn-animation-container">
+                    <div id="lawn-animation" class="position-relative rounded p-3">
+                        <!-- Animation will be rendered here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section - Displays the different lawn care services offered -->
+<section id="services" class="py-5 bg-white">
+    <div class="container">
+        <!-- Section header -->
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 mb-2">Our Services</span>
+            <h2 class="display-5 fw-bold">What We Offer</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">From basic lawn mowing to complete yard makeovers, we have you covered.</p>
+        </div>
+
+        <!-- Service cards grid - Dynamically generated from database -->
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-md-6 col-lg-3 service-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card h-100 hover-shadow transition-all">
+                    <div class="card-body">
+                        <!-- Service icon - Fixed to properly display Bootstrap icons -->
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded p-3 mb-3">
+                            <i class="bi bi-{{ service.icon }} fs-4"></i>
+                        </div>
+                        <h3 class="card-title h5">{{ service.name }}</h3>
+                        <p class="card-text text-muted">{{ service.description }}</p>
+                        <p class="fw-bold fs-4">From R{{ service.base_price|int }}</p>
+                        <!-- Link to booking page with arrow animation on hover -->
+                        <a href="{{ url_for('book') }}" class="stretched-link text-decoration-none text-primary d-flex align-items-center">
+                            Book Service <i class="bi bi-arrow-right ms-2 arrow-icon"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section - Explains the service process in 3 steps -->
+<section id="how-it-works" class="py-5 bg-light-primary">
+    <div class="container">
+        <!-- Section header -->
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 mb-2">Simple Process</span>
+            <h2 class="display-5 fw-bold">How It Works</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">Get your lawn taken care of in three simple steps.</p>
+        </div>
+
+        <!-- Three-step process with icons -->
+        <div class="row g-4 mt-3">
+            <!-- Step 1: Get a Quote -->
+            <div class="col-md-4 text-center">
+                <!-- Icon circle - Fixed to properly display Bootstrap icons -->
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                    <i class="bi bi-calculator fs-3"></i>
+                </div>
+                <h3 class="h4 mb-3">Get a Quote</h3>
+                <p class="text-muted">Use our interactive yard size calculator to get an instant price estimate.</p>
+            </div>
+            <!-- Step 2: Book a Time -->
+            <div class="col-md-4 text-center">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                    <i class="bi bi-calendar-date fs-3"></i>
+                </div>
+                <h3 class="h4 mb-3">Book a Time</h3>
+                <p class="text-muted">Choose a convenient date and time from our real-time availability calendar.</p>
+            </div>
+            <!-- Step 3: Enjoy Your Lawn -->
+            <div class="col-md-4 text-center">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                    <i class="bi bi-tree fs-3"></i>
+                </div>
+                <h3 class="h4 mb-3">Enjoy Your Lawn</h3>
+                <p class="text-muted">Sit back and relax while our professionals take care of your yard.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section - Customer reviews carousel -->
+<section id="testimonials" class="py-5 bg-white">
+    <div class="container">
+        <!-- Section header -->
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 mb-2">Testimonials</span>
+            <h2 class="display-5 fw-bold">What Our Customers Say</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">Don't just take our word for it. See what our satisfied customers have to say about Yard Portal.</p>
+        </div>
+
+        <!-- Bootstrap carousel for testimonials -->
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel slides - Dynamically generated from database -->
+            <div class="carousel-inner">
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                    <div class="card mx-auto" style="max-width: 700px;">
+                        <div class="card-body text-center p-5">
+                            <!-- Star rating -->
+                            <div class="mb-3">
+                                {% for i in range(testimonial.rating) %}
+                                <i class="bi bi-star-fill text-warning"></i>
+                                {% endfor %}
+                            </div>
+                            <!-- Testimonial content -->
+                            <p class="lead mb-4">"{{ testimonial.content }}"</p>
+                            <!-- Customer info -->
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                    <span class="text-primary">{{ testimonial.name[:1] }}</span>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">{{ testimonial.name }}</h5>
+                                    <p class="text-muted small mb-0">{{ testimonial.role }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Carousel navigation controls -->
+            <div class="d-flex justify-content-center mt-4">
+                <!-- Previous button -->
+                <button class="btn btn-outline-primary rounded-circle me-2" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <i class="bi bi-chevron-left"></i>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+
+                <!-- Indicator dots - One for each testimonial -->
+                {% for testimonial in testimonials %}
+                <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="{{ loop.index0 }}" class="btn btn-sm rounded-circle mx-1 {% if loop.first %}active bg-primary{% else %}bg-light{% endif %}" aria-current="true" aria-label="Testimonial {{ loop.index }}"></button>
+                {% endfor %}
+
+                <!-- Next button -->
+                <button class="btn btn-outline-primary rounded-circle ms-2" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <i class="bi bi-chevron-right"></i>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call-to-Action Section - Final prompt to book service -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="display-5 fw-bold mb-3">Ready to Transform Your Lawn?</h2>
+            <p class="lead mb-4 text-white-50 mx-auto" style="max-width: 700px;">Book your service today and enjoy a beautiful, well-maintained yard without the hassle.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('book') }}" class="btn btn-light btn-lg px-4 gap-3 text-primary">
+                    Book Now <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+                <a href="{{ url_for('quote') }}" class="btn btn-outline-light btn-lg px-4">Get a Quote</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ===== LAWN ANIMATION SETUP =====
+        // Get the container element for the animation
+        const animationContainer = document.getElementById('lawn-animation');
+
+        // Create the lawn background (green area)
+        const lawnBackground = document.createElement('div');
+        lawnBackground.className = 'lawn-background';
+        animationContainer.appendChild(lawnBackground);
+
+        // Create the lawn mower with its parts
+        const lawnMower = document.createElement('div');
+        lawnMower.className = 'lawn-mower';
+        lawnMower.innerHTML = `
+            <div class="mower-body"></div>
+            <div class="mower-handle"></div>
+            <div class="mower-wheel mower-wheel-left"></div>
+            <div class="mower-wheel mower-wheel-right"></div>
+        `;
+        animationContainer.appendChild(lawnMower);
+
+        // Create the cut path (lighter green area that follows the mower)
+        const cutPath = document.createElement('div');
+        cutPath.className = 'cut-path';
+        animationContainer.appendChild(cutPath);
+
+        // Create the sun element
+        const sun = document.createElement('div');
+        sun.className = 'sun';
+        animationContainer.appendChild(sun);
+
+        // Create cloud elements for decoration
+        const cloud1 = document.createElement('div');
+        cloud1.className = 'cloud cloud-1';
+        animationContainer.appendChild(cloud1);
+
+        const cloud2 = document.createElement('div');
+        cloud2.className = 'cloud cloud-2';
+        animationContainer.appendChild(cloud2);
+
+        // ===== LAWN MOWER ANIMATION =====
+        // Set initial position and animation parameters
+        let position = -50; // Start off-screen to the left
+        const maxPosition = 350; // Maximum position to move right
+        const speed = 0.5; // Movement speed
+
+        // Animation function that moves the lawn mower across the screen
+        function animateLawnMower() {
+            // Reset position when reaching the end
+            if (position > maxPosition) {
+                position = -50;
+            } else {
+                position += speed;
+            }
+
+            // Update mower position and cut path width
+            lawnMower.style.transform = `translateX(${position}px)`;
+            cutPath.style.width = `${position + 50}px`;
+
+            // Request next animation frame (creates a smooth animation loop)
+            requestAnimationFrame(animateLawnMower);
+        }
+
+        // Start the animation
+        animateLawnMower();
+
+        // ===== SERVICE CARD HOVER EFFECTS =====
+        // Get all service cards
+        const serviceCards = document.querySelectorAll('.service-card');
+
+        // Add hover effects to each card
+        serviceCards.forEach(card => {
+            // When mouse enters the card
+            card.addEventListener('mouseenter', function() {
+                // Find the arrow icon and move it right
+                const arrow = this.querySelector('.arrow-icon');
+                if (arrow) {
+                    arrow.style.transform = 'translateX(5px)';
+                }
+            });
+
+            // When mouse leaves the card
+            card.addEventListener('mouseleave', function() {
+                // Reset the arrow position
+                const arrow = this.querySelector('.arrow-icon');
+                if (arrow) {
+                    arrow.style.transform = 'translateX(0)';
+                }
+            });
+        });
+
+        // ===== TESTIMONIAL CAROUSEL SETUP =====
+        // Initialize the Bootstrap carousel with options
+        const testimonialCarousel = new bootstrap.Carousel(document.getElementById('testimonialCarousel'), {
+            interval: 5000, // Auto-slide every 5 seconds
+            wrap: true      // Loop back to the beginning when reaching the end
+        });
+
+        // ===== CAROUSEL NAVIGATION CONTROLS =====
+        // Get the previous and next buttons
+        const prevButton = document.querySelector('[data-bs-slide="prev"]');
+        const nextButton = document.querySelector('[data-bs-slide="next"]');
+
+        // Add click event listener to previous button
+        prevButton.addEventListener('click', function() {
+            // Manually trigger the carousel to go to previous slide
+            testimonialCarousel.prev();
+        });
+
+        // Add click event listener to next button
+        nextButton.addEventListener('click', function() {
+            // Manually trigger the carousel to go to next slide
+            testimonialCarousel.next();
+        });
+
+        // ===== CAROUSEL INDICATOR DOTS =====
+        // Get all indicator dots
+        const indicators = document.querySelectorAll('[data-bs-slide-to]');
+
+        // Add click event listeners to each indicator dot
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', function() {
+                // Get the slide index from the data attribute
+                const slideIndex = this.getAttribute('data-bs-slide-to');
+
+                // Go to the specified slide
+                testimonialCarousel.to(slideIndex);
+
+                // Update the active state of all indicators
+                indicators.forEach(ind => {
+                    // Remove active state from all indicators
+                    ind.classList.remove('active', 'bg-primary');
+                    ind.classList.add('bg-light');
+                });
+
+                // Add active state to the clicked indicator
+                this.classList.add('active', 'bg-primary');
+                this.classList.remove('bg-light');
+            });
+        });
+    });
+</script>
+{% endblock %}
+

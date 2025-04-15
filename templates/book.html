@@ -1,0 +1,608 @@
+{% extends 'layout.html' %}
+
+{% block title %}Book Your Lawn Service - Yard Portal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+   <div class="d-flex align-items-center mb-4">
+       <a href="{{ url_for('home') }}" class="text-decoration-none text-muted d-flex align-items-center">
+       <i class="fas fa-chevron-left me-2"></i>
+       Back to Home
+   </a>
+   <div class="ms-auto d-flex align-items-center">
+       <i class="fas fa-scissors text-primary me-2"></i>
+       <span class="fw-bold">Yard<span class="text-primary">Portal</span></span>
+   </div>
+</div>
+
+   <div class="d-flex justify-content-between align-items-center mb-4">
+       <h1 class="display-5 fw-bold">Book Your Lawn Service</h1>
+       <div class="d-flex align-items-center">
+           <div class="d-flex align-items-center">
+               <div class="rounded-circle bg-primary me-2" style="width: 10px; height: 10px;"></div>
+               <div class="rounded-circle bg-primary me-2" style="width: 10px; height: 10px;"></div>
+               <div class="rounded-circle bg-primary me-2" style="width: 10px; height: 10px;"></div>
+           </div>
+       </div>
+   </div>
+
+   <div class="card shadow-sm">
+       <div class="card-body p-4">
+           <form id="bookingForm" method="POST" action="{{ url_for('book') }}">
+               <div id="step1" class="booking-step">
+                   <h3 class="card-title mb-3">Step 1: Your Information</h3>
+                   <p class="text-muted mb-4">Please provide your contact details</p>
+
+                   <div class="row g-3 mb-4">
+                       <div class="col-md-6">
+                           <label for="name" class="form-label">Full Name</label>
+                           <input type="text" class="form-control" id="name" name="name" required>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="email" class="form-label">Email Address</label>
+                           <input type="email" class="form-control" id="email" name="email" required>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="phone" class="form-label">Phone Number</label>
+                           <input type="tel" class="form-control" id="phone" name="phone" required>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="address" class="form-label">Service Address</label>
+                           <input type="text" class="form-control" id="address" name="address" required>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="city" class="form-label">City</label>
+                           <input type="text" class="form-control" id="city" name="city" required placeholder="e.g. Johannesburg">
+                       </div>
+                   </div>
+
+                   <div class="d-flex justify-content-end">
+                       <button type="button" class="btn btn-primary px-4" id="step1Next">Next</button>
+                   </div>
+               </div>
+
+               <div id="step2" class="booking-step d-none">
+                   <h3 class="card-title mb-3">Step 2: Select Date & Time</h3>
+                   <p class="text-muted mb-4">Choose when you'd like us to service your lawn</p>
+
+                   <div class="row g-4 mb-4">
+                       <div class="col-md-6">
+                           <label for="date" class="form-label">Service Date</label>
+                           <select class="form-select" id="date" name="date" required>
+                               <option value="" selected disabled>Select a date</option>
+                               {% for date in available_dates %}
+                               <option value="{{ date }}">{{ date }}</option>
+                               {% endfor %}
+                           </select>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="time_slot" class="form-label">Time Slot</label>
+                           <select class="form-select" id="time_slot" name="time_slot" required disabled>
+                               <option value="" selected disabled>Select a date first</option>
+                           </select>
+                       </div>
+                       <div class="col-12">
+                           <div id="weatherForecast" class="card bg-light-primary d-none mt-3">
+                               <div class="card-body p-3">
+                                   <h5 class="card-title d-flex align-items-center mb-3">
+                                       <i class="fas fa-cloud-sun text-primary me-2"></i>
+                                       Weather Forecast
+                                   </h5>
+                                   <div class="d-flex align-items-center">
+                                       <div id="weatherIcon" class="me-3 fs-1 text-primary">
+                                           <!-- Weather icon will be inserted here -->
+                                       </div>
+                                       <div>
+                                           <div class="d-flex align-items-center mb-1">
+                                               <span id="weatherTemp" class="fs-4 fw-bold me-2">--°C</span>
+                                               <span id="weatherDesc" class="text-muted">--</span>
+                                           </div>
+                                           <div class="d-flex align-items-center small text-muted">
+                                               <i class="fas fa-droplet me-1"></i>
+                                               <span id="weatherPrecip">--% chance of precipitation</span>
+                                           </div>
+                                           <div class="d-flex align-items-center small text-muted mt-1">
+                                               <i class="fas fa-wind me-1"></i>
+                                               <span id="weatherWind">-- km/h</span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="mt-3 small">
+                                       <p class="mb-0 text-muted"><i class="fas fa-info-circle me-1"></i> Weather forecasts are predictions and may change. We'll monitor conditions before your service.</p>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="d-flex justify-content-between">
+                       <button type="button" class="btn btn-outline-secondary px-4" id="step2Back">Back</button>
+                       <button type="button" class="btn btn-primary px-4" id="step2Next">Next</button>
+                   </div>
+               </div>
+
+               <div id="step3" class="booking-step d-none">
+                   <h3 class="card-title mb-3">Step 3: Service Details</h3>
+                   <p class="text-muted mb-4">Tell us about your yard and service needs</p>
+
+                   <div class="row g-4 mb-4">
+                       <div class="col-md-6">
+                           <label for="yard_size" class="form-label">Approximate Yard Size (sq ft)</label>
+                           <select class="form-select" id="yard_size" name="yard_size" required>
+                               <option value="1000">Small (up to 1,000 sq ft)</option>
+                               <option value="2500" selected>Medium (1,000 - 2,500 sq ft)</option>
+                               <option value="5000">Large (2,500 - 5,000 sq ft)</option>
+                               <option value="10000">X-Large (5,000 - 10,000 sq ft)</option>
+                               <option value="15000">XX-Large (over 10,000 sq ft)</option>
+                           </select>
+                       </div>
+                       <div class="col-md-6">
+                           <label for="service_type" class="form-label">Service Type</label>
+                           <select class="form-select" id="service_type" name="service_type" required>
+                               <option value="standard" selected>Standard Lawn Mowing</option>
+                               <option value="premium">Premium Service (Mowing + Edging)</option>
+                               <option value="complete">Complete Package (Mowing + Edging + Cleanup)</option>
+                           </select>
+                       </div>
+                   </div>
+
+                   <div class="mb-4">
+                       <label class="form-label">Additional Services</label>
+                       <div class="form-check mb-2">
+                           <input class="form-check-input" type="checkbox" name="additional_services" id="edging" value="edging">
+                           <label class="form-check-label" for="edging">
+                               Edging (+R15)
+                           </label>
+                       </div>
+                       <div class="form-check mb-2">
+                           <input class="form-check-input" type="checkbox" name="additional_services" id="trimming" value="trimming">
+                           <label class="form-check-label" for="trimming">
+                               Shrub Trimming (+R25)
+                           </label>
+                       </div>
+                       <div class="form-check">
+                           <input class="form-check-input" type="checkbox" name="additional_services" id="cleanup" value="cleanup">
+                           <label class="form-check-label" for="cleanup">
+                               Debris Cleanup (+R20)
+                           </label>
+                       </div>
+                   </div>
+
+                   <div class="d-flex justify-content-between">
+                       <button type="button" class="btn btn-outline-secondary px-4" id="step3Back">Back</button>
+                       <button type="button" class="btn btn-primary px-4" id="step3Next">Next</button>
+                   </div>
+               </div>
+
+               <div id="step4" class="booking-step d-none">
+                   <h3 class="card-title mb-3">Step 4: Confirm Your Booking</h3>
+                   <p class="text-muted mb-4">Review your lawn service appointment details</p>
+
+                   <div class="row g-4 mb-4">
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Name</p>
+                           <p class="fw-bold" id="confirmName"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Email</p>
+                           <p class="fw-bold" id="confirmEmail"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Phone</p>
+                           <p class="fw-bold" id="confirmPhone"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Address</p>
+                           <p class="fw-bold" id="confirmAddress"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">City</p>
+                           <p class="fw-bold" id="confirmCity"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Date</p>
+                           <p class="fw-bold" id="confirmDate"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Time</p>
+                           <p class="fw-bold" id="confirmTime"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Service</p>
+                           <p class="fw-bold" id="confirmService"></p>
+                       </div>
+                       <div class="col-md-6">
+                           <p class="text-muted mb-1">Estimated Price</p>
+                           <p class="fw-bold" id="confirmPrice"></p>
+                       </div>
+                   </div>
+
+                   <div class="bg-light p-3 rounded mb-4">
+                       <p class="fw-bold mb-2">What to expect:</p>
+                       <ul class="small mb-0">
+                           <li>Our team will arrive during your selected time slot</li>
+                           <li>We'll text you 30 minutes before arrival</li>
+                           <li>Payment will be collected after service is completed</li>
+                           <li>You don't need to be home during the service</li>
+                       </ul>
+                   </div>
+
+                   <input type="hidden" name="price" id="finalPrice" value="45.00">
+
+                   <div class="d-flex justify-content-between">
+                       <button type="button" class="btn btn-outline-secondary px-4" id="step4Back">Back</button>
+                       <button type="button" class="btn btn-primary px-4" id="confirmBookingBtn">Confirm Booking</button>
+                   </div>
+               </div>
+           </form>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+       // Step navigation
+       const step1 = document.getElementById('step1');
+       const step2 = document.getElementById('step2');
+       const step3 = document.getElementById('step3');
+       const step4 = document.getElementById('step4');
+
+       const step1Next = document.getElementById('step1Next');
+       const step2Back = document.getElementById('step2Back');
+       const step2Next = document.getElementById('step2Next');
+       const step3Back = document.getElementById('step3Back');
+       const step3Next = document.getElementById('step3Next');
+       const step4Back = document.getElementById('step4Back');
+
+       step1Next.addEventListener('click', function() {
+           // Validate step 1
+           const name = document.getElementById('name').value;
+           const email = document.getElementById('email').value;
+           const phone = document.getElementById('phone').value;
+           const address = document.getElementById('address').value;
+
+           if (!name || !email || !phone || !address) {
+               alert('Please fill in all required fields.');
+               return;
+           }
+
+           step1.classList.add('d-none');
+           step2.classList.remove('d-none');
+       });
+
+       step2Back.addEventListener('click', function() {
+           step2.classList.add('d-none');
+           step1.classList.remove('d-none');
+       });
+
+       step2Next.addEventListener('click', function() {
+           // Validate step 2
+           const date = document.getElementById('date').value;
+           const timeSlot = document.getElementById('time_slot').value;
+
+           if (!date || !timeSlot) {
+               alert('Please select a date and time slot.');
+               return;
+           }
+
+           step2.classList.add('d-none');
+           step3.classList.remove('d-none');
+       });
+
+       step3Back.addEventListener('click', function() {
+           step3.classList.add('d-none');
+           step2.classList.remove('d-none');
+       });
+
+       step3Next.addEventListener('click', function() {
+           // Calculate price
+           calculatePrice();
+
+           // Populate confirmation
+           document.getElementById('confirmName').textContent = document.getElementById('name').value;
+           document.getElementById('confirmEmail').textContent = document.getElementById('email').value;
+           document.getElementById('confirmPhone').textContent = document.getElementById('phone').value;
+           document.getElementById('confirmAddress').textContent = document.getElementById('address').value;
+           document.getElementById('confirmCity').textContent = document.getElementById('city').value;
+           document.getElementById('confirmDate').textContent = document.getElementById('date').value;
+           document.getElementById('confirmTime').textContent = document.getElementById('time_slot').value;
+
+           const serviceType = document.getElementById('service_type');
+           document.getElementById('confirmService').textContent = serviceType.options[serviceType.selectedIndex].text;
+
+           document.getElementById('confirmPrice').textContent = 'R' + document.getElementById('finalPrice').value;
+
+           step3.classList.add('d-none');
+           step4.classList.remove('d-none');
+       });
+
+       step4Back.addEventListener('click', function() {
+           step4.classList.add('d-none');
+           step3.classList.remove('d-none');
+       });
+
+       // Date and time slot handling
+       const dateSelect = document.getElementById('date');
+       const timeSlotSelect = document.getElementById('time_slot');
+       const weatherForecast = document.getElementById('weatherForecast');
+
+       dateSelect.addEventListener('change', function() {
+           // Enable time slot select
+           timeSlotSelect.disabled = false;
+           timeSlotSelect.innerHTML = '<option value="" selected disabled>Loading available times...</option>';
+
+           // Fetch available time slots for selected date
+           fetch('/api/available_slots', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({
+                   date: this.value
+               }),
+           })
+           .then(response => response.json())
+           .then(data => {
+               // Populate time slots
+               timeSlotSelect.innerHTML = '<option value="" selected disabled>Select a time slot</option>';
+
+               data.available_slots.forEach(slot => {
+                   const option = document.createElement('option');
+                   option.value = slot;
+                   option.textContent = slot;
+                   timeSlotSelect.appendChild(option);
+               });
+           })
+           .catch(error => {
+               console.error('Error fetching time slots:', error);
+               timeSlotSelect.innerHTML = '<option value="" selected disabled>Error loading time slots</option>';
+           });
+
+           // Get the city value
+           const city = document.getElementById('city').value;
+
+           // Only fetch weather if we have a city
+           if (city) {
+             // Fetch weather forecast for selected date
+             fetchWeatherForecast(this.value);
+           } else {
+             // Show message that city is needed for weather
+             weatherForecast.classList.remove('d-none');
+             document.getElementById('weatherIcon').innerHTML = '<i class="fas fa-map-marker-alt"></i>';
+             document.getElementById('weatherTemp').textContent = '--°C';
+             document.getElementById('weatherDesc').textContent = 'Please enter a city for weather forecast';
+             document.getElementById('weatherPrecip').textContent = '--% chance of precipitation';
+             document.getElementById('weatherWind').textContent = '-- km/h';
+           }
+       });
+
+       // Add event listener to city field to update weather when city changes
+       document.getElementById('city').addEventListener('change', function() {
+         const dateValue = document.getElementById('date').value;
+         if (dateValue) {
+           fetchWeatherForecast(dateValue);
+         }
+       });
+
+       // Weather forecast function
+       // Update the fetchWeatherForecast function to better handle city input
+function fetchWeatherForecast(date) {
+ // Get the city from the form and ensure it's not empty
+ const cityInput = document.getElementById('city');
+ const city = cityInput.value.trim();
+
+ if (!city) {
+   // Show message that city is needed for weather
+   weatherForecast.classList.remove('d-none');
+   document.getElementById('weatherIcon').innerHTML = '<i class="fas fa-map-marker-alt"></i>';
+   document.getElementById('weatherTemp').textContent = '--°C';
+   document.getElementById('weatherDesc').textContent = 'Please enter a city for weather forecast';
+   document.getElementById('weatherPrecip').textContent = '--% chance of precipitation';
+   document.getElementById('weatherWind').textContent = '-- km/h';
+
+   // Add a note about city requirement
+   const previousAlerts = document.querySelectorAll('#weatherForecast .alert');
+   previousAlerts.forEach(alert => alert.remove());
+
+   const cityAlert = document.createElement('div');
+   cityAlert.className = 'alert alert-warning mt-3 mb-0 py-2 small';
+   cityAlert.innerHTML = '<i class="fas fa-info-circle me-1"></i> Please enter a city name to see accurate weather forecast.';
+   document.querySelector('#weatherForecast .card-body').appendChild(cityAlert);
+   return;
+ }
+
+ // Show loading state
+ weatherForecast.classList.remove('d-none');
+ document.getElementById('weatherIcon').innerHTML = '<i class="fas fa-hourglass-half"></i>';
+ document.getElementById('weatherTemp').textContent = '--°C';
+ document.getElementById('weatherDesc').textContent = `Loading forecast for ${city}...`;
+ document.getElementById('weatherPrecip').textContent = '--% chance of precipitation';
+ document.getElementById('weatherWind').textContent = '-- km/h';
+
+ // Clear any previous alerts
+ const previousAlerts = document.querySelectorAll('#weatherForecast .alert');
+ previousAlerts.forEach(alert => alert.remove());
+
+ console.log(`Requesting weather for city: ${city} on date: ${date}`);
+
+ // Make API request to get weather data
+ fetch('/api/weather_forecast', {
+   method: 'POST',
+   headers: {
+     'Content-Type': 'application/json',
+   },
+   body: JSON.stringify({
+     date: date,
+     city: city
+   }),
+ })
+ .then(response => {
+   if (!response.ok) {
+     throw new Error(`Server responded with status: ${response.status}`);
+   }
+   return response.json();
+ })
+ .then(data => {
+   console.log('Weather data received:', data);
+   if (data.success) {
+     const forecast = data.forecast;
+     const cityName = data.city || city;
+
+     // Convert Bootstrap icon to FontAwesome
+     let iconClass = 'fa-cloud'; // Default icon
+     if (forecast.icon_class) {
+       // Convert from Bootstrap to FontAwesome
+       iconClass = forecast.icon_class.replace('bi-', 'fa-');
+       // Handle special cases
+       if (iconClass === 'fa-cloud-drizzle') iconClass = 'fa-cloud-rain';
+       if (iconClass === 'fa-cloud-lightning') iconClass = 'fa-bolt';
+       if (iconClass === 'fa-cloud-lightning-rain') iconClass = 'fa-cloud-bolt';
+     }
+
+     // Update the weather forecast UI
+     document.getElementById('weatherIcon').innerHTML = `<i class="fas ${iconClass}" aria-hidden="true"></i>`;
+     document.getElementById('weatherTemp').textContent = `${Math.round(forecast.avg_temp)}°C`;
+     document.getElementById('weatherDesc').textContent = forecast.condition;
+     document.getElementById('weatherPrecip').textContent = `${forecast.precipitation_probability}% chance of precipitation`;
+     document.getElementById('weatherWind').textContent = `${forecast.wind_speed || 10} km/h`;
+
+     // Add city information
+     const cityInfo = document.createElement('div');
+     cityInfo.className = 'd-flex align-items-center small text-muted mt-1';
+     cityInfo.innerHTML = `<i class="fas fa-map-marker-alt me-1"></i><span>${cityName}</span>`;
+     document.querySelector('#weatherForecast .card-body > div > div:nth-child(2)').appendChild(cityInfo);
+
+     // Add a note for rainy days
+     if (forecast.precipitation_probability > 30) {
+       const noteElem = document.createElement('div');
+       noteElem.className = 'alert alert-info mt-3 mb-0 py-2 small';
+       noteElem.innerHTML = '<i class="fas fa-umbrella me-1"></i> There\'s a chance of rain on this date. We may need to reschedule if conditions are too wet for optimal lawn care.';
+       document.querySelector('#weatherForecast .card-body').appendChild(noteElem);
+     }
+
+     // If using simulated data, show a note
+     if (data.source === 'simulated' && data.note) {
+       const simulatedNote = document.createElement('div');
+       simulatedNote.className = 'alert alert-warning mt-3 mb-0 py-2 small';
+       simulatedNote.innerHTML = `<i class="fas fa-info-circle me-1"></i> ${data.note}`;
+       document.querySelector('#weatherForecast .card-body').appendChild(simulatedNote);
+     }
+   } else {
+     // Show error message
+     document.getElementById('weatherIcon').innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+     document.getElementById('weatherTemp').textContent = '--°C';
+     document.getElementById('weatherDesc').textContent = 'Weather forecast unavailable';
+     document.getElementById('weatherPrecip').textContent = '--% chance of precipitation';
+     document.getElementById('weatherWind').textContent = '-- km/h';
+
+     // Add error note
+     const errorNote = document.createElement('div');
+     errorNote.className = 'alert alert-danger mt-3 mb-0 py-2 small';
+     errorNote.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Unable to retrieve weather forecast. Please try again later.';
+     document.querySelector('#weatherForecast .card-body').appendChild(errorNote);
+   }
+ })
+ .catch(error => {
+   console.error('Error fetching weather:', error);
+   // Show error message
+   document.getElementById('weatherIcon').innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+   document.getElementById('weatherTemp').textContent = '--°C';
+   document.getElementById('weatherDesc').textContent = 'Error loading forecast';
+   document.getElementById('weatherPrecip').textContent = '--% chance of precipitation';
+   document.getElementById('weatherWind').textContent = '-- km/h';
+
+   // Add error note
+   const errorNote = document.createElement('div');
+   errorNote.className = 'alert alert-danger mt-3 mb-0 py-2 small';
+   errorNote.innerHTML = `<i class="fas fa-exclamation-circle me-1"></i> Error: ${error.message}`;
+   document.querySelector('#weatherForecast .card-body').appendChild(errorNote);
+ });
+}
+
+       // Price calculation
+       function calculatePrice() {
+           const yardSize = parseInt(document.getElementById('yard_size').value);
+           const serviceType = document.getElementById('service_type').value;
+           const additionalServices = Array.from(document.querySelectorAll('input[name="additional_services"]:checked')).map(el => el.value);
+
+           // Base price calculation
+           let basePrice = 0;
+
+           // Base price by yard size
+           if (yardSize <= 1000) basePrice = 35;
+           else if (yardSize <= 2500) basePrice = 45;
+           else if (yardSize <= 5000) basePrice = 65;
+           else if (yardSize <= 10000) basePrice = 95;
+           else basePrice = 150;
+
+           // Service type adjustment
+           if (serviceType === 'premium') {
+               basePrice += 15;
+           } else if (serviceType === 'complete') {
+               basePrice += 35;
+           }
+
+           // Additional services
+           let additionalCost = 0;
+           if (additionalServices.includes('edging') && serviceType !== 'premium' && serviceType !== 'complete') {
+               additionalCost += 15;
+           }
+           if (additionalServices.includes('trimming')) {
+               additionalCost += 25;
+           }
+           if (additionalServices.includes('cleanup') && serviceType !== 'complete') {
+               additionalCost += 20;
+           }
+
+           const totalPrice = (basePrice + additionalCost).toFixed(2);
+           document.getElementById('finalPrice').value = totalPrice;
+       }
+
+       // Confirmation message on booking
+       const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+       const bookingForm = document.getElementById('bookingForm');
+
+       confirmBookingBtn.addEventListener('click', function(e) {
+           e.preventDefault();
+
+           // Updated SweetAlert styling to match the new turquoise-blue theme
+           Swal.fire({
+               title: 'Confirm Booking',
+               text: 'Are you sure you want to confirm this booking?',
+               icon: 'question',
+               showCancelButton: true,
+               confirmButtonColor: '#1eacac', // Updated to match primary color
+               cancelButtonColor: '#f44336',
+               confirmButtonText: 'Yes, book it!'
+           }).then((result) => {
+               if (result.isConfirmed) {
+                   Swal.fire({
+                       title: 'Processing...',
+                       text: 'Your booking is being processed',
+                       icon: 'info',
+                       allowOutsideClick: false,
+                       showConfirmButton: false,
+                       willOpen: () => {
+                           Swal.showLoading();
+                       }
+                   });
+
+                   // Submit the form
+                   bookingForm.submit();
+               }
+           });
+       });
+   });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+   .booking-step {
+       transition: all 0.3s ease;
+   }
+</style>
+{% endblock %}
+

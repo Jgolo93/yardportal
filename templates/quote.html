@@ -1,0 +1,780 @@
+{% extends 'layout.html' %}
+
+{% block title %}Get a Quote - Yard Portal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+   <div class="d-flex align-items-center mb-4">
+       <a href="{{ url_for('home') }}" class="text-decoration-none text-muted d-flex align-items-center">
+           <i class="fas fa-chevron-left me-2"></i>
+           Back to Home
+       </a>
+       <div class="ms-auto d-flex align-items-center">
+           <i class="fas fa-scissors text-primary me-2"></i>
+           <span class="fw-bold">Yard<span class="text-primary">Portal</span></span>
+       </div>
+   </div>
+
+   <h1 class="display-4 fw-bold mb-5">Get Your Lawn Care Quote</h1>
+
+   <div class="row g-4">
+       <div class="col-lg-6">
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-ruler text-primary me-2"></i>
+                       Yard Size
+                   </h5>
+                   <p class="text-muted small mb-0">Estimate the size of your lawn in square feet</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="mb-4">
+                       <input type="range" class="form-range" min="500" max="15000" step="500" value="2500" id="yardSizeSlider">
+                       <div class="d-flex justify-content-between mt-3">
+                           <span class="small text-muted">500 sq ft</span>
+                           <span class="fw-bold fs-5" id="yardSizeValue">2,500 sq ft</span>
+                           <span class="small text-muted">15,000 sq ft</span>
+                       </div>
+                   </div>
+                   <div class="alert alert-light border-primary border-start border-4 mt-3 mb-0">
+                       <div class="d-flex">
+                           <div class="me-3 text-primary">
+                               <i class="fas fa-info-circle fa-lg"></i>
+                           </div>
+                           <div>
+                               <p class="mb-0 small">Not sure about your yard size? A typical suburban lot is around 5,000-10,000 sq ft with the lawn covering about 50% of that area.</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-home text-primary me-2"></i>
+                       Property Type
+                   </h5>
+                   <p class="text-muted small mb-0">Select your property type</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="row g-3">
+                       <div class="col-md-6">
+                           <div class="card h-100 property-type-card" data-type="residential">
+                               <div class="card-body p-3 text-center">
+                                   <i class="fas fa-home fa-2x text-primary mb-3"></i>
+                                   <h6 class="mb-0">Residential</h6>
+                                   <div class="form-check mt-2 d-flex justify-content-center">
+                                       <input class="form-check-input" type="radio" name="propertyType" id="residential" value="residential" checked>
+                                       <label class="form-check-label" for="residential"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-6">
+                           <div class="card h-100 property-type-card" data-type="commercial">
+                               <div class="card-body p-3 text-center">
+                                   <i class="fas fa-building fa-2x text-primary mb-3"></i>
+                                   <h6 class="mb-0">Commercial</h6>
+                                   <div class="form-check mt-2 d-flex justify-content-center">
+                                       <input class="form-check-input" type="radio" name="propertyType" id="commercial" value="commercial">
+                                       <label class="form-check-label" for="commercial"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-scissors text-primary me-2"></i>
+                       Additional Services
+                   </h5>
+                   <p class="text-muted small mb-0">Select any additional services you need</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="row g-3">
+                       <div class="col-md-4">
+                           <div class="card h-100 service-option-card">
+                               <div class="card-body p-3">
+                                   <div class="form-check">
+                                       <input class="form-check-input additional-service" type="checkbox" id="edging" value="edging">
+                                       <label class="form-check-label" for="edging">
+                                           <div class="d-flex flex-column align-items-center text-center">
+                                               <i class="fas fa-border-style fa-2x text-primary mb-2"></i>
+                                               <h6 class="mb-1">Edging</h6>
+                                               <span class="badge bg-primary">+R15</span>
+                                           </div>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="card h-100 service-option-card">
+                               <div class="card-body p-3">
+                                   <div class="form-check">
+                                       <input class="form-check-input additional-service" type="checkbox" id="trimming" value="trimming">
+                                       <label class="form-check-label" for="trimming">
+                                           <div class="d-flex flex-column align-items-center text-center">
+                                               <i class="fas fa-tree fa-2x text-primary mb-2"></i>
+                                               <h6 class="mb-1">Shrub Trimming</h6>
+                                               <span class="badge bg-primary">+R25</span>
+                                           </div>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="card h-100 service-option-card">
+                               <div class="card-body p-3">
+                                   <div class="form-check">
+                                       <input class="form-check-input additional-service" type="checkbox" id="cleanup" value="cleanup">
+                                       <label class="form-check-label" for="cleanup">
+                                           <div class="d-flex flex-column align-items-center text-center">
+                                               <i class="fas fa-leaf fa-2x text-primary mb-2"></i>
+                                               <h6 class="mb-1">Debris Cleanup</h6>
+                                               <span class="badge bg-primary">+R20</span>
+                                           </div>
+                                       </label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-calendar-alt text-primary me-2"></i>
+                       Service Frequency
+                   </h5>
+                   <p class="text-muted small mb-0">How often would you like your lawn serviced?</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="row g-3">
+                       <div class="col-md-4">
+                           <div class="card h-100 frequency-card" data-frequency="once">
+                               <div class="card-body p-3 text-center">
+                                   <i class="fas fa-calendar-day fa-2x text-primary mb-2"></i>
+                                   <h6 class="mb-1">One-time</h6>
+                                   <p class="small text-muted mb-0">Single service</p>
+                                   <div class="form-check mt-2 d-flex justify-content-center">
+                                       <input class="form-check-input" type="radio" name="frequency" id="once" value="once" checked>
+                                       <label class="form-check-label" for="once"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="card h-100 frequency-card" data-frequency="biweekly">
+                               <div class="card-body p-3 text-center">
+                                   <i class="fas fa-calendar-week fa-2x text-primary mb-2"></i>
+                                   <h6 class="mb-1">Bi-weekly</h6>
+                                   <p class="small text-muted mb-0">Every 2 weeks</p>
+                                   <div class="form-check mt-2 d-flex justify-content-center">
+                                       <input class="form-check-input" type="radio" name="frequency" id="biweekly" value="biweekly">
+                                       <label class="form-check-label" for="biweekly"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-md-4">
+                           <div class="card h-100 frequency-card" data-frequency="weekly">
+                               <div class="card-body p-3 text-center">
+                                   <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+                                   <h6 class="mb-1">Weekly</h6>
+                                   <p class="small text-muted mb-0">Every week</p>
+                                   <div class="form-check mt-2 d-flex justify-content-center">
+                                       <input class="form-check-input" type="radio" name="frequency" id="weekly" value="weekly">
+                                       <label class="form-check-label" for="weekly"></label>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="alert alert-primary mt-3 mb-0">
+                       <div class="d-flex">
+                           <div class="me-3">
+                               <i class="fas fa-percentage fa-lg"></i>
+                           </div>
+                           <div>
+                               <p class="mb-0 small">Save 10% with bi-weekly service and 15% with weekly service plans!</p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+
+           <button id="calculateQuoteBtn" class="btn btn-primary btn-lg w-100 py-3">
+               <i class="fas fa-calculator me-2"></i> Calculate Quote
+           </button>
+       </div>
+
+       <div class="col-lg-6">
+           <!-- Add weather information to the quote page -->
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-cloud-sun text-primary me-2"></i>
+                       Weather Insights
+                   </h5>
+                   <p class="text-muted small mb-0">Weather can affect lawn care scheduling and results</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="row g-4">
+                       <div class="col-md-4 text-center">
+                           <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-2" style="width: 70px; height: 70px;">
+                               <i class="fas fa-sun fa-2x"></i>
+                           </div>
+                           <h6>Sunny Days</h6>
+                           <p class="small text-muted">Ideal for most lawn services. We'll ensure proper hydration after mowing.</p>
+                       </div>
+                       <div class="col-md-4 text-center">
+                           <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-2" style="width: 70px; height: 70px;">
+                               <i class="fas fa-cloud-rain fa-2x"></i>
+                           </div>
+                           <h6>Rainy Days</h6>
+                           <p class="small text-muted">We may need to reschedule if the lawn is too wet for optimal mowing.</p>
+                       </div>
+                       <div class="col-md-4 text-center">
+                           <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-2" style="width: 70px; height: 70px;">
+                               <i class="fas fa-temperature-high fa-2x"></i>
+                           </div>
+                           <h6>Seasonal Care</h6>
+                           <p class="small text-muted">Our approach adapts to seasonal weather patterns for best results.</p>
+                       </div>
+                   </div>
+
+                   <div class="weather-animation-container mt-4 mb-3" id="quote-weather-animation">
+                       <!-- Weather animation will be inserted here -->
+                   </div>
+
+                   <div class="alert alert-info mt-3 mb-0 small">
+                       <i class="fas fa-info-circle me-2"></i>
+                       When you book a service, you'll see a weather forecast for your selected date to help you plan accordingly.
+                   </div>
+               </div>
+           </div>
+
+           <div class="card shadow-sm mb-4 border-0 rounded-lg">
+               <div class="card-header bg-white py-3">
+                   <h5 class="mb-0 d-flex align-items-center">
+                       <i class="fas fa-eye text-primary me-2"></i>
+                       Yard Visualizer
+                   </h5>
+                   <p class="text-muted small mb-0">Interactive visualization of your yard size</p>
+               </div>
+               <div class="card-body p-4">
+                   <!-- Update the yard visualizer background class -->
+                   <div class="position-relative">
+                       <canvas id="yardCanvas" width="400" height="300" class="w-100 border rounded bg-light-green"></canvas>
+                       <div class="position-absolute top-0 end-0 bg-white bg-opacity-75 rounded p-2 m-2">
+                           <div class="d-flex align-items-center small mb-1">
+                               <i class="fas fa-tree text-primary me-2"></i>
+                               <span>Tree</span>
+                           </div>
+                           <div class="d-flex align-items-center small">
+                               <i class="fas fa-seedling text-primary me-2"></i>
+                               <span>Shrub</span>
+                           </div>
+                       </div>
+                   </div>
+                   <p class="text-muted small mt-3">
+                       This visualization gives you an approximate idea of your yard size. Adjust the slider to see how your yard compares to different sizes.
+                   </p>
+               </div>
+           </div>
+
+           <!-- Update the quote result card styling -->
+           <div id="quoteResult" class="card border-primary bg-quote-result shadow-sm d-none">
+               <div class="card-header bg-transparent border-primary py-3">
+                   <h5 class="mb-0 text-primary d-flex align-items-center">
+                       <i class="fas fa-check-circle me-2"></i>
+                       Your Estimated Quote
+                   </h5>
+                   <p class="text-primary small mb-0">Based on your selections</p>
+               </div>
+               <div class="card-body p-4">
+                   <div class="text-center mb-4">
+                       <p class="display-4 fw-bold text-primary" id="totalPrice">R45</p>
+                       <p class="small text-primary" id="priceFrequency">per service</p>
+                   </div>
+
+                   <div class="card bg-white mb-3">
+                       <div class="card-body p-3">
+                           <h6 class="mb-3 text-primary">Quote Breakdown</h6>
+                           <div class="d-flex justify-content-between mb-2">
+                               <span>Base Price:</span>
+                               <span id="basePrice">R45.00</span>
+                           </div>
+                           <div class="d-flex justify-content-between mb-2" id="additionalServicesRow">
+                               <span>Additional Services:</span>
+                               <span id="additionalPrice">R0.00</span>
+                           </div>
+                           <div class="d-flex justify-content-between mb-2" id="discountRow">
+                               <span>Frequency Discount:</span>
+                               <span id="discountAmount">-R0.00</span>
+                           </div>
+                           <hr>
+                           <div class="d-flex justify-content-between fw-bold">
+                               <span>Total:</span>
+                               <span id="totalPriceBreakdown">R45.00</span>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="mt-3 small text-primary">
+                       <p class="mb-1" id="quoteSummarySize"><i class="fas fa-check-circle me-2"></i> 2,500 sq ft residential property</p>
+                       <p class="mb-1" id="quoteSummaryServices"><i class="fas fa-check-circle me-2"></i> Standard lawn mowing</p>
+                       <p class="mb-1" id="quoteSummaryFrequency"><i class="fas fa-check-circle me-2"></i> One-time service</p>
+                       <p class="mb-1"><i class="fas fa-check-circle me-2"></i> Professional equipment and trained staff</p>
+                       <p class="mb-1"><i class="fas fa-check-circle me-2"></i> Satisfaction guaranteed</p>
+                   </div>
+               </div>
+               <div class="card-footer bg-transparent border-primary p-4">
+                   <div class="row g-2">
+                       <div class="col-md-6">
+                           <a href="{{ url_for('book') }}" class="btn btn-primary w-100 py-3">
+                               <i class="fas fa-calendar-check me-2"></i> Book This Service
+                           </a>
+                       </div>
+                       <div class="col-md-6">
+                           <button id="modifyQuoteBtn" class="btn btn-outline-primary w-100 py-3">
+                               <i class="fas fa-edit me-2"></i> Modify Quote
+                           </button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+       const yardSizeSlider = document.getElementById('yardSizeSlider');
+       const yardSizeValue = document.getElementById('yardSizeValue');
+       const calculateQuoteBtn = document.getElementById('calculateQuoteBtn');
+       const quoteResult = document.getElementById('quoteResult');
+       const totalPrice = document.getElementById('totalPrice');
+       const priceFrequency = document.getElementById('priceFrequency');
+       const basePrice = document.getElementById('basePrice');
+       const additionalPrice = document.getElementById('additionalPrice');
+       const discountAmount = document.getElementById('discountAmount');
+       const totalPriceBreakdown = document.getElementById('totalPriceBreakdown');
+       const quoteSummarySize = document.getElementById('quoteSummarySize');
+       const quoteSummaryServices = document.getElementById('quoteSummaryServices');
+       const quoteSummaryFrequency = document.getElementById('quoteSummaryFrequency');
+       const modifyQuoteBtn = document.getElementById('modifyQuoteBtn');
+       const canvas = document.getElementById('yardCanvas');
+       const ctx = canvas.getContext('2d');
+
+       // Initialize weather animation
+       weatherAnimations.initAnimation('#quote-weather-animation', 'bi-cloud-sun');
+
+       // Update yard size value when slider changes
+       yardSizeSlider.addEventListener('input', function() {
+           const value = parseInt(this.value).toLocaleString();
+           yardSizeValue.textContent = `${value} sq ft`;
+           drawYard(parseInt(this.value));
+       });
+
+       // Property type card selection
+       const propertyTypeCards = document.querySelectorAll('.property-type-card');
+       propertyTypeCards.forEach(card => {
+           card.addEventListener('click', function() {
+               const type = this.dataset.type;
+               document.querySelector(`#${type}`).checked = true;
+
+               // Update styling
+               propertyTypeCards.forEach(c => c.classList.remove('border-primary'));
+               this.classList.add('border-primary');
+           });
+       });
+
+       // Frequency card selection
+       const frequencyCards = document.querySelectorAll('.frequency-card');
+       frequencyCards.forEach(card => {
+           card.addEventListener('click', function() {
+               const frequency = this.dataset.frequency;
+               document.querySelector(`#${frequency}`).checked = true;
+
+               // Update styling
+               frequencyCards.forEach(c => c.classList.remove('border-primary'));
+               this.classList.add('border-primary');
+           });
+       });
+
+       // Update the service option card click handler
+       // Replace the existing service option cards event listener with this:
+       // Service option card selection
+       const serviceOptionCards = document.querySelectorAll('.service-option-card');
+       serviceOptionCards.forEach(card => {
+           card.addEventListener('click', function() {
+               const checkbox = this.querySelector('input[type="checkbox"]');
+               checkbox.checked = !checkbox.checked;
+
+               // Update styling
+               if (checkbox.checked) {
+                   this.classList.add('selected');
+               } else {
+                   this.classList.remove('selected');
+               }
+           });
+
+           // Initialize selected state based on checkbox
+           const checkbox = card.querySelector('input[type="checkbox"]');
+           if (checkbox.checked) {
+               card.classList.add('selected');
+           }
+
+           // Prevent checkbox click from triggering card click twice
+           const checkboxInput = card.querySelector('.form-check-input');
+           checkboxInput.addEventListener('click', function(e) {
+               e.stopPropagation();
+               if (this.checked) {
+                   card.classList.add('selected');
+               } else {
+                   card.classList.remove('selected');
+               }
+           });
+       });
+
+       // Calculate quote when button is clicked
+       calculateQuoteBtn.addEventListener('click', function() {
+           const yardSize = parseInt(yardSizeSlider.value);
+           const propertyType = document.querySelector('input[name="propertyType"]:checked').value;
+           const frequency = document.querySelector('input[name="frequency"]:checked').value;
+           const additionalServices = Array.from(document.querySelectorAll('.additional-service:checked')).map(el => el.value);
+
+           // Show loading state
+           this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Calculating...';
+           this.disabled = true;
+
+           // Call API to calculate quote
+           fetch('/calculate_quote', {
+               method: 'POST',
+               headers: {
+                   'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({
+                   yard_size: yardSize,
+                   property_type: propertyType,
+                   frequency: frequency,
+                   additional_services: additionalServices
+               }),
+           })
+           .then(response => response.json())
+           .then(data => {
+               if (data.success) {
+                   // Reset button state
+                   calculateQuoteBtn.innerHTML = '<i class="fas fa-calculator me-2"></i> Calculate Quote';
+                   calculateQuoteBtn.disabled = false;
+
+                   // Show success notification with updated styling
+                   Swal.fire({
+                       title: 'Quote Calculated!',
+                       text: 'Your lawn service quote has been calculated.',
+                       icon: 'success',
+                       confirmButtonColor: '#1eacac', // Updated to match primary color
+                       timer: 2000,
+                       timerProgressBar: true
+                   });
+
+                   // Update quote result
+                   totalPrice.textContent = `R${data.total_price}`;
+                   basePrice.textContent = `R${data.base_price.toFixed(2)}`;
+                   additionalPrice.textContent = `R${data.additional_cost.toFixed(2)}`;
+
+                   // Show/hide additional services row
+                   if (data.additional_cost > 0) {
+                       document.getElementById('additionalServicesRow').classList.remove('d-none');
+                   } else {
+                       document.getElementById('additionalServicesRow').classList.add('d-none');
+                   }
+
+                   // Show/hide discount row and update frequency text
+                   if (frequency !== 'once') {
+                       document.getElementById('discountRow').classList.remove('d-none');
+                       discountAmount.textContent = `-R${data.discount.toFixed(2)}`;
+
+                       if (frequency === 'weekly') {
+                           priceFrequency.textContent = 'per week';
+                       } else {
+                           priceFrequency.textContent = 'every two weeks';
+                       }
+                   } else {
+                       document.getElementById('discountRow').classList.add('d-none');
+                       priceFrequency.textContent = 'per service';
+                   }
+
+                   totalPriceBreakdown.textContent = `R${data.total_price.toFixed(2)}`;
+
+                   // Update summary
+                   quoteSummarySize.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${yardSize.toLocaleString()} sq ft ${propertyType} property`;
+
+                   // Update services summary
+                   let servicesText = 'Standard lawn mowing';
+                   if (additionalServices.length > 0) {
+                       const serviceNames = additionalServices.map(service => {
+                           return service.charAt(0).toUpperCase() + service.slice(1);
+                       }).join(', ');
+                       servicesText += ` with ${serviceNames}`;
+                   }
+                   quoteSummaryServices.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${servicesText}`;
+
+                   // Update frequency summary
+                   let frequencyText = 'One-time service';
+                   if (frequency === 'weekly') {
+                       frequencyText = 'Weekly service (15% discount applied)';
+                   } else if (frequency === 'biweekly') {
+                       frequencyText = 'Bi-weekly service (10% discount applied)';
+                   }
+                   quoteSummaryFrequency.innerHTML = `<i class="fas fa-check-circle me-2"></i> ${frequencyText}`;
+
+                   // Show quote result
+                   quoteResult.classList.remove('d-none');
+
+                   // Scroll to quote result
+                   quoteResult.scrollIntoView({ behavior: 'smooth' });
+               }
+           })
+           .catch(error => {
+               console.error('Error calculating quote:', error);
+
+               // Reset button state
+               calculateQuoteBtn.innerHTML = '<i class="fas fa-calculator me-2"></i> Calculate Quote';
+               calculateQuoteBtn.disabled = false;
+
+               // Updated error alert styling
+               Swal.fire({
+                   title: 'Error!',
+                   text: 'There was an error calculating your quote. Please try again.',
+                   icon: 'error',
+                   confirmButtonColor: '#1eacac' // Updated to match primary color
+               });
+           });
+       });
+
+       // Modify quote button
+       modifyQuoteBtn.addEventListener('click', function() {
+           quoteResult.classList.add('d-none');
+           calculateQuoteBtn.scrollIntoView({ behavior: 'smooth' });
+       });
+
+       // Initial yard drawing
+       drawYard(parseInt(yardSizeSlider.value));
+
+       // Function to draw yard visualization
+       function drawYard(yardSize) {
+           // Clear canvas
+           ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+           // Calculate yard dimensions based on size
+           const maxWidth = canvas.width - 40;
+           const maxHeight = canvas.height - 40;
+
+           // Scale the yard size for visualization
+           const scaleFactor = Math.sqrt(yardSize) / Math.sqrt(15000);
+           const width = Math.max(100, maxWidth * scaleFactor);
+           const height = Math.max(80, maxHeight * scaleFactor);
+
+           // Position the yard in the center
+           const x = (canvas.width - width) / 2;
+           const y = (canvas.height - height) / 2;
+
+           // Draw house
+           ctx.fillStyle = '#94a3b8';
+           ctx.fillRect(x + width / 2 - 40, y - 30, 80, 30);
+
+           // Draw roof
+           ctx.beginPath();
+           ctx.moveTo(x + width / 2 - 50, y - 30);
+           ctx.lineTo(x + width / 2, y - 60);
+           ctx.lineTo(x + width / 2 + 50, y - 30);
+           ctx.closePath();
+           ctx.fillStyle = '#64748b';
+           ctx.fill();
+
+           // Draw yard
+           ctx.fillStyle = '#4ade80';
+           ctx.fillRect(x, y, width, height);
+
+           // Draw yard border
+           ctx.strokeStyle = '#166534';
+           ctx.lineWidth = 2;
+           ctx.strokeRect(x, y, width, height);
+
+           // Add texture to the yard (grass pattern)
+           ctx.strokeStyle = '#16a34a';
+           ctx.lineWidth = 0.5;
+
+           // Draw random grass blades
+           for (let i = 0; i < yardSize / 100; i++) {
+               const grassX = x + Math.random() * width;
+               const grassY = y + Math.random() * height;
+               const grassHeight = 2 + Math.random() * 3;
+
+               ctx.beginPath();
+               ctx.moveTo(grassX, grassY);
+               ctx.lineTo(grassX - 1, grassY - grassHeight);
+               ctx.stroke();
+
+               ctx.beginPath();
+               ctx.moveTo(grassX, grassY);
+               ctx.lineTo(grassX + 1, grassY - grassHeight);
+               ctx.stroke();
+           }
+
+           // Add some trees and shrubs for larger yards
+           if (yardSize > 5000) {
+               // Trees
+               const numTrees = Math.floor(yardSize / 5000);
+               for (let i = 0; i < numTrees; i++) {
+                   const treeX = x + 20 + Math.random() * (width - 40);
+                   const treeY = y + 20 + Math.random() * (height - 40);
+
+                   // Tree trunk
+                   ctx.fillStyle = '#92400e';
+                   ctx.fillRect(treeX - 2, treeY - 2, 4, 15);
+
+                   // Tree foliage
+                   ctx.beginPath();
+                   ctx.arc(treeX, treeY - 10, 12, 0, Math.PI * 2);
+                   ctx.fillStyle = '#166534';
+                   ctx.fill();
+               }
+
+               // Shrubs
+               const numShrubs = Math.floor(yardSize / 3000);
+               for (let i = 0; i < numShrubs; i++) {
+                   const shrubX = x + 15 + Math.random() * (width - 30);
+                   const shrubY = y + 15 + Math.random() * (height - 30);
+
+                   ctx.beginPath();
+                   ctx.arc(shrubX, shrubY, 6, 0, Math.PI * 2);
+                   ctx.fillStyle = '#15803d';
+                   ctx.fill();
+               }
+           }
+
+           // Add a scale indicator
+           ctx.fillStyle = '#000';
+           ctx.font = '12px Arial';
+           ctx.fillText(`${yardSize.toLocaleString()} sq ft`, x, y + height + 20);
+       }
+   });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+   .bg-light-green {
+       background-color: var(--accent-50);
+   }
+
+   /* Property type card styling */
+   .property-type-card {
+       cursor: pointer;
+       transition: all 0.2s ease;
+       border: 2px solid transparent;
+   }
+
+   .property-type-card:hover {
+       transform: translateY(-3px);
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+
+   /* Fix the service option cards and checkboxes */
+   .service-option-card {
+       cursor: pointer;
+       transition: all 0.2s ease;
+       border: 2px solid transparent;
+       position: relative;
+   }
+
+   .service-option-card:hover {
+       transform: translateY(-3px);
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+
+   .service-option-card .form-check {
+       width: 100%;
+       height: 100%;
+   }
+
+   .service-option-card .form-check-input {
+       position: absolute;
+       top: 10px;
+       left: 10px;
+       z-index: 2;
+   }
+
+   .service-option-card .form-check-label {
+       width: 100%;
+       height: 100%;
+       cursor: pointer;
+       font-size: inherit;
+       padding: 10px;
+       display: block;
+   }
+
+   /* Remove the blue line */
+   .badge.bg-primary {
+       display: inline-block;
+       cursor: pointer;
+       font-size: inherit;
+       padding: 10px;
+       display: block;
+   }
+
+   /* Remove the blue line */
+   .badge.bg-primary {
+       display: inline-block;
+       margin-top: 5px;
+   }
+
+   /* Fix the card selection styling */
+   .service-option-card.selected {
+       border-color: var(--primary-600);
+       background-color: rgba(30, 172, 172, 0.05);
+   }
+
+   /* Frequency card styling */
+   .frequency-card {
+       cursor: pointer;
+       transition: all 0.2s ease;
+       border: 2px solid transparent;
+   }
+
+   .frequency-card:hover {
+       transform: translateY(-3px);
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   }
+
+   /* Selected card styling */
+   .border-primary {
+       border-color: var(--primary-600) !important;
+   }
+
+   /* Quote result card styling */
+   .bg-quote-result {
+       background-color: var(--accent-50);
+   }
+
+   /* Hide form-check label text but keep the checkbox visible */
+   .form-check-label {
+       font-size: 0;
+   }
+</style>
+{% endblock %}
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Yard Portal - Professional Lawn Care{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/weather-animations.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <header class="border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+          <div class="container">
+              <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                  <i class="fas fa-scissors text-primary me-2"></i>
+                  <span class="fw-bold">Yard<span class="text-primary">Portal</span></span>
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <!-- Replace the navigation items with Font Awesome icons -->
+                  <ul class="navbar-nav ms-auto">
+                      <!-- Only show Home button when not on the home page -->
+                      {% if request.path != '/' %}
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('home') }}">
+                              <i class="fas fa-home me-1"></i>Home
+                          </a>
+                      </li>
+                      {% endif %}
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('home') }}#services">Services</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('home') }}#how-it-works">How It Works</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('home') }}#testimonials">Testimonials</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('quote') }}">Get a Quote</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link btn btn-primary text-white ms-2 px-3" href="{{ url_for('book') }}">Book Now</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </nav>
+  </header>
+
+  <main>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                      {% if category == 'success' %}
+                          <i class="fas fa-check-circle me-2"></i>
+                      {% elif category == 'danger' %}
+                          <i class="fas fa-exclamation-circle me-2"></i>
+                      {% elif category == 'warning' %}
+                          <i class="fas fa-exclamation-triangle me-2"></i>
+                      {% elif category == 'info' %}
+                          <i class="fas fa-info-circle me-2"></i>
+                      {% endif %}
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+  </main>
+
+  <footer class="py-4 border-top bg-white">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-6">
+                  <p class="small text-muted">© 2024 Yard Portal. All rights reserved.</p>
+              </div>
+              <div class="col-md-6 text-md-end">
+                  <a href="#" class="text-decoration-none small text-muted me-3">Terms of Service</a>
+                  <a href="#" class="text-decoration-none small text-muted">Privacy</a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ url_for('static', filename='js/weather-forecast.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/weather-animations.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/custom-modals.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
+

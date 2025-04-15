@@ -1,0 +1,276 @@
+{% extends 'layout.html' %}
+
+{% block title %}Home - Yard Portal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+   <div class="row mb-5">
+       <div class="col-12 text-center">
+           <h1 class="display-4 fw-bold text-primary mb-3">Welcome to Yard Portal</h1>
+           <p class="lead text-muted">Your trusted partner for professional lawn care services</p>
+       </div>
+   </div>
+
+   <!-- Quick Links Section -->
+   <div class="row g-4 mb-5">
+       <div class="col-md-4">
+           <div class="card h-100 hover-shadow transition-all">
+               <div class="card-body text-center p-4">
+                   <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                       <i class="fas fa-calendar-check fs-3"></i>
+                   </div>
+                   <h3 class="h4 mb-3">Book a Service</h3>
+                   <p class="text-muted mb-4">Schedule your lawn care service with our easy-to-use online booking system.</p>
+                   <a href="{{ url_for('book') }}" class="btn btn-primary">
+                       Book Now <i class="bi bi-arrow-right ms-2"></i>
+                   </a>
+               </div>
+           </div>
+       </div>
+       <div class="col-md-4">
+           <div class="card h-100 hover-shadow transition-all">
+               <div class="card-body text-center p-4">
+                   <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                       <i class="fas fa-calculator fs-3"></i>
+                   </div>
+                   <h3 class="h4 mb-3">Get a Quote</h3>
+                   <p class="text-muted mb-4">Use our interactive calculator to get an instant price estimate for your yard.</p>
+                   <a href="{{ url_for('quote') }}" class="btn btn-primary">
+                       Calculate Quote <i class="bi bi-arrow-right ms-2"></i>
+                   </a>
+               </div>
+           </div>
+       </div>
+       <div class="col-md-4">
+           <div class="card h-100 hover-shadow transition-all">
+               <div class="card-body text-center p-4">
+                   <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle p-4 mb-3" style="width: 100px; height: 100px;">
+                       <i class="fas fa-info-circle fs-3"></i>
+                   </div>
+                   <h3 class="h4 mb-3">Learn More</h3>
+                   <p class="text-muted mb-4">Discover our full range of services and how we can help maintain your lawn.</p>
+                   <a href="{{ url_for('home') }}#services" class="btn btn-primary">
+                       View Services <i class="bi bi-arrow-right ms-2"></i>
+                   </a>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- Weather Information Section with Animation -->
+   <div class="card mb-5 border-0 shadow-sm">
+       <div class="card-header bg-primary text-white">
+           <h2 class="h4 mb-0"><i class="bi bi-cloud-sun me-2"></i>Today's Lawn Care Weather</h2>
+       </div>
+       <div class="card-body p-4">
+           <div class="row align-items-center">
+               <div class="col-md-6">
+                   <div class="d-flex align-items-center">
+                       <div class="me-4" id="home-weather-animation">
+                           <!-- Weather animation will be inserted here -->
+                       </div>
+                       <div>
+                           <h3 class="h2 mb-1" id="current-temp">Loading...</h3>
+                           <p class="mb-0 text-muted" id="current-condition">Checking weather conditions...</p>
+                           <p class="small text-muted mt-2">
+                               <i class="bi bi-geo-alt me-1"></i><span id="current-location">Johannesburg</span>
+                           </p>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-6">
+                   <div class="card bg-light border-0">
+                       <div class="card-body">
+                           <h4 class="h5 mb-3">Lawn Care Recommendation</h4>
+                           <p class="mb-2" id="weather-recommendation">Checking conditions for lawn care...</p>
+                           <div id="weather-details" class="small text-muted">
+                               <p class="mb-1"><i class="bi bi-droplet me-1"></i>Precipitation: <span id="precipitation-chance">--</span></p>
+                               <p class="mb-1"><i class="bi bi-wind me-1"></i>Wind: <span id="wind-speed">--</span></p>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- Recent Updates Section -->
+   <div class="row mb-5">
+       <div class="col-12">
+           <h2 class="h3 mb-4">Recent Updates</h2>
+           <div class="card border-0 shadow-sm">
+               <div class="card-body p-4">
+                   <div class="d-flex mb-4">
+                       <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                           <i class="bi bi-newspaper"></i>
+                       </div>
+                       <div>
+                           <h3 class="h5 mb-1">New Weather Integration</h3>
+                           <p class="text-muted mb-2">March 25, 2024</p>
+                           <p>We've integrated real-time weather data from AccuWeather to provide you with accurate forecasts for your lawn care scheduling. Now you can see if weather conditions are suitable for mowing before booking!</p>
+                       </div>
+                   </div>
+                   <div class="d-flex mb-4">
+                       <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                           <i class="bi bi-stars"></i>
+                       </div>
+                       <div>
+                           <h3 class="h5 mb-1">Spring Lawn Care Special</h3>
+                           <p class="text-muted mb-2">March 15, 2024</p>
+                           <p>Get 15% off your first spring lawn care service when you book before April 15. Use code SPRING2024 at checkout.</p>
+                       </div>
+                   </div>
+                   <div class="d-flex">
+                       <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                           <i class="bi bi-people"></i>
+                       </div>
+                       <div>
+                           <h3 class="h5 mb-1">Expanded Service Area</h3>
+                           <p class="text-muted mb-2">March 1, 2024</p>
+                           <p>We're excited to announce that we've expanded our service area to include the northern suburbs. Check if your location is covered in our booking form!</p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+   <!-- Call to Action -->
+   <div class="row">
+       <div class="col-12">
+           <div class="card bg-primary text-white border-0 shadow">
+               <div class="card-body p-5 text-center">
+                   <h2 class="h3 mb-3">Ready to transform your lawn?</h2>
+                   <p class="mb-4">Join thousands of satisfied customers who trust Yard Portal with their lawn care needs.</p>
+                   <a href="{{ url_for('book') }}" class="btn btn-light text-primary btn-lg px-4">
+                       Book Your Service Today <i class="bi bi-arrow-right ms-2"></i>
+                   </a>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Add city selector after the weather card header
+      const weatherCardHeader = document.querySelector('.card-header.bg-primary');
+      if (weatherCardHeader) {
+          const citySelector = document.createElement('div');
+          citySelector.className = 'p-2 bg-light border-bottom';
+          citySelector.innerHTML = `
+              <div class="d-flex align-items-center justify-content-between">
+                  <label for="citySelect" class="form-label mb-0 me-2">Select City:</label>
+                  <select id="citySelect" class="form-select form-select-sm" style="width: auto;">
+                      <option value="Johannesburg">Johannesburg</option>
+                      <option value="Cape Town">Cape Town</option>
+                      <option value="Durban">Durban</option>
+                      <option value="Pretoria">Pretoria</option>
+                      <option value="Port Elizabeth">Port Elizabeth</option>
+                      <option value="Bloemfontein">Bloemfontein</option>
+                      <option value="East London">East London</option>
+                      <option value="Kimberley">Kimberley</option>
+                      <option value="Polokwane">Polokwane</option>
+                      <option value="Nelspruit">Nelspruit</option>
+                  </select>
+              </div>
+          `;
+          weatherCardHeader.insertAdjacentElement('afterend', citySelector);
+
+          // Add event listener to city selector
+          document.getElementById('citySelect').addEventListener('change', function() {
+              fetchCurrentWeather(this.value);
+          });
+      }
+
+      // Fetch current weather data with city parameter
+      fetchCurrentWeather();
+
+      // Function to fetch current weather
+      function fetchCurrentWeather(city = 'Johannesburg') {
+          // Get today's date
+          const today = new Date();
+          const dateStr = today.toISOString().split('T')[0];
+
+          // Show loading state
+          document.getElementById('current-temp').textContent = 'Loading...';
+          document.getElementById('current-condition').textContent = 'Fetching weather data...';
+          document.getElementById('current-location').textContent = city;
+
+          // Make API request to get weather data
+          fetch('/api/weather_forecast', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  date: dateStr,
+                  city: city // Use the provided city parameter
+              }),
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  updateWeatherUI(data.forecast, data.city);
+              } else {
+                  showWeatherError();
+              }
+          })
+          .catch(error => {
+              console.error('Error fetching weather:', error);
+              showWeatherError();
+          });
+      }
+
+      // Function to update weather UI
+      function updateWeatherUI(forecast, city) {
+          // Update temperature and condition
+          document.getElementById('current-temp').textContent = `${Math.round(forecast.avg_temp)}°C`;
+          document.getElementById('current-condition').textContent = forecast.condition;
+          document.getElementById('current-location').textContent = city || 'Johannesburg';
+
+          // Update icon and initialize animation with FontAwesome icon
+          let iconClass = forecast.icon_class || 'fa-cloud';
+          // Convert Bootstrap icon to FontAwesome if needed
+          if (iconClass.startsWith('bi-')) {
+              iconClass = iconClass.replace('bi-', 'fa-');
+              // Handle special cases
+              if (iconClass === 'fa-cloud-drizzle') iconClass = 'fa-cloud-rain';
+              if (iconClass === 'fa-cloud-lightning') iconClass = 'fa-bolt';
+              if (iconClass === 'fa-cloud-lightning-rain') iconClass = 'fa-cloud-bolt';
+          }
+          weatherAnimations.initAnimation('#home-weather-animation', iconClass);
+
+          // Update precipitation and wind
+          document.getElementById('precipitation-chance').textContent = `${forecast.precipitation_probability}%`;
+          document.getElementById('wind-speed').textContent = `${forecast.wind_speed || 10} km/h`;
+
+          // Update recommendation
+          if (forecast.recommendations) {
+              document.getElementById('weather-recommendation').textContent = forecast.recommendations.message;
+
+              // Add recommendation details if available
+              if (forecast.recommendations.details && forecast.recommendations.details.length > 0) {
+                  const detailsContainer = document.getElementById('weather-details');
+                  forecast.recommendations.details.forEach(detail => {
+                      const detailElem = document.createElement('p');
+                      detailElem.className = 'mb-1';
+                      detailElem.innerHTML = `<i class="fas fa-info-circle me-1"></i>${detail}`;
+                      detailsContainer.appendChild(detailElem);
+                  });
+              }
+          }
+      }
+
+      // Function to show weather error
+      function showWeatherError() {
+          document.getElementById('current-temp').textContent = 'Weather data unavailable';
+          document.getElementById('current-condition').textContent = 'Please try again later';
+          document.getElementById('weather-recommendation').textContent = 'Unable to retrieve weather recommendations';
+      }
+  });
+</script>
+{% endblock %}
+
